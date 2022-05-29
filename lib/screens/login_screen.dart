@@ -77,22 +77,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                             const SizedBox(width: 16.0),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).errorColor,
-                              ),
-                              child: const Text('Register'),
-                              onPressed: () {
-                                setState(() {
-                                  //if register button is pressed, clear all values and proceed
-                                  // 
-                                  
-                                  _formKey.currentState!.reset();
-                                  currentStage = Stage.REGISTER;
-                                  // }
-                                });
-                              },
-                            ),
+                            TextButton(
+                                child: const Text('Register'),
+                                onPressed: () {
+                                  setState(() {
+                                    //if register button is pressed, clear all values and proceed
+                                    //
+                                    _formKey.currentState!.reset();
+                                    currentStage = Stage.REGISTER;
+                                  });
+                                }),
                           ],
                         ),
                       ]),
@@ -149,13 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     },
                                   ),
                                   const SizedBox(width: 16.0),
-                                  ElevatedButton(
+                                  TextButton(
                                     child: const Text('Cancel'),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Theme.of(context)
-                                          .colorScheme
-                                          .background,
-                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _formKey.currentState!.reset();
