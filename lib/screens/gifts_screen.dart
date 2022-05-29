@@ -20,9 +20,6 @@ class GiftsScreen extends StatefulWidget {
     required this.logout,
   }) : super(key: key);
 
-  // int currentPerson; //the id of the current person
-  // String currentPersonName;
-  // Function(Enum) goPeople;
   Function(String) logout;
   var prefs;
   String personName;
@@ -111,14 +108,14 @@ class _GiftsScreenState extends State<GiftsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(gifts[index].store == null || gifts[index].store!.isEmpty
-                      ? 'Store: N/A'
-                      : 'Store: ${gifts[index].store}'),
                   Text(
-                      'Price: ${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index].price)}'),
-                  Text(gifts[index].url == null || gifts[index].url!.isEmpty
-                      ? 'URL: N/A'
-                      : 'URL: ${gifts[index].url}')
+                      '${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index].price)}'),
+                  if(!(gifts[index].store == null || gifts[index].store!.isEmpty)) ...[
+                    Text('${gifts[index].store}')
+                  ],
+                  if(!(gifts[index].url == null || gifts[index].url!.isEmpty)) ...[
+                    Text('${gifts[index].url}')
+                  ]
                 ]),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -243,4 +240,28 @@ class _GiftsScreenState extends State<GiftsScreen> {
     }
     return owner;
   }
+  // Widget _showGiftCards(index){
+  //   bool giftStore = gifts[index].store != null || gifts[index].store!.isNotEmpty;
+  //   bool giftUrl = gifts[index].url != null || gifts[index].url!.isNotEmpty;
+  //   return Column(
+  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 // Visibility(
+  //                 //   visible: giftStore,
+  //                 //   maintainSize: false,
+  //                 //   maintainAnimation: false,
+  //                 //   maintainState: false,
+  //                 //   child: Text('${gifts[index].store}'),
+  //                 // ),
+  //                 if(giftStore) ...[ Text('${gifts[index].store}')],
+  //                 Text(
+  //                     '${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index].price)}'),
+  //                 Visibility(
+  //                   visible:giftUrl,
+  //                   maintainSize: false,
+  //                   child: Text('${gifts[index].url}')
+  //                 )
+  //               ]);
+  // }
 }
