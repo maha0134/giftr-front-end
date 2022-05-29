@@ -14,7 +14,7 @@ class MyTheme {
         primary: Color.fromARGB(255, 0, 0, 0),
         onPrimary: Color.fromARGB(255, 222, 219, 223),
         secondary: Color.fromARGB(255, 85, 141, 169),
-        onSecondary: Colors.lime,
+        onSecondary: Color.fromARGB(255, 182, 138, 167),
         tertiary: Color.fromARGB(255, 220, 166, 6),
         onTertiary: Colors.lime,
 
@@ -101,22 +101,21 @@ class MyTheme {
       ),
     );
 
-    //then build on top of the colorScheme and textTheme
-    //to style specific widgets
+    
     ThemeData dark = darkBase.copyWith(
       //colours set in here will override the ColorScheme
-      scaffoldBackgroundColor: Color.fromARGB(255, 170, 167, 167),
-      shadowColor: Color.fromARGB(207, 0, 0, 0),
+      scaffoldBackgroundColor: const Color.fromARGB(255, 170, 167, 167),
+      shadowColor: const Color.fromARGB(207, 0, 0, 0),
 
       appBarTheme: AppBarTheme(
         backgroundColor: darkBase.colorScheme.onSurface,
-        foregroundColor: Color.fromARGB(255, 0,0,0),
-        titleTextStyle: TextStyle(
+        foregroundColor: const Color.fromARGB(255, 0,0,0),
+        titleTextStyle: const TextStyle(
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w400,
           fontSize: 30,
         ),
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 157, 0)),
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 255, 157, 0)),
         //this will override the iconThemeData
       ),
 
@@ -164,7 +163,8 @@ class MyTheme {
       listTileTheme: ListTileThemeData(
         contentPadding: const EdgeInsets.all(10),
         tileColor: darkBase.colorScheme.onPrimary,
-        shape: const RoundedRectangleBorder(
+        shape:  const RoundedRectangleBorder(
+          side: BorderSide(width: 1),
           borderRadius: BorderRadius.all(Radius.circular(5))
         ),
         textColor: Colors.black,

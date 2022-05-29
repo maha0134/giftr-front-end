@@ -95,7 +95,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
         return Dismissible(
             background: Container(
               alignment: Alignment.centerRight,
-              margin: const EdgeInsets.all(10),
               child: const Padding(
                 child: Icon(Icons.delete_forever),
                 padding: EdgeInsets.all(10)
@@ -157,7 +156,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
               );
             },
             direction: DismissDirection.endToStart,
-            child: Card(
                 child: ListTile(
                   tileColor: _birthdayHasPassed(index)
                       ? Theme.of(context).colorScheme.secondary
@@ -175,7 +173,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
                           color: Theme.of(context).colorScheme.primary
                         ),
                         onPressed: () {
-                          print('go to the add_person_screen');
                           String id = persons[index].id;
                           String name = persons[index].name;
                           DateTime dob = persons[index].birthDate;
@@ -190,7 +187,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
                                 .onTertiaryContainer
                         ),
                         onPressed: () {
-                          print('view gift ideas for person $index');
                           String id = persons[index].id;
                           String name = persons[index].name;
                           DateTime dob = persons[index].birthDate;
@@ -199,7 +195,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                       ),
                     ],
                   ),
-                )));
+                ));
       },
     );
   }

@@ -162,7 +162,7 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
 
   TextFormField _buildDOB() {
     return TextFormField(
-      decoration: _styleField('Date of Birth', 'Date of Birth', true),
+      decoration: _styleField('Date of Birth', 'yyyy-mm-dd', true),
       controller: dobController,
       obscureText: false,
       keyboardType: TextInputType.datetime,

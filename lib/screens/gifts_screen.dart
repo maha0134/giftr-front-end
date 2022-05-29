@@ -79,7 +79,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(6.0),
           child: giftsRetrieved
               ? _giftListBuilder()
               : Text(
@@ -101,9 +101,8 @@ class _GiftsScreenState extends State<GiftsScreen> {
     return ListView.builder(
         itemCount: gifts.length,
         itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-            tileColor:Theme.of(context).colorScheme.surface,
+          return ListTile(
+            tileColor:Theme.of(context).colorScheme.onSecondary,
             title: Text(gifts[index].name),
             subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -181,7 +180,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
                   )
               ],
             ),
-          ));
+          );
         });
   }
 
