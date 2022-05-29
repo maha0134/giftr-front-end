@@ -70,8 +70,9 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
             widget.nav('people');
           },
         ),
-        title:
-            noPerson ? const Text('Add-Person') : Text('Edit - ${widget.personName}'),
+        title: noPerson
+            ? const Text('Add-Person')
+            : Text('Edit - ${widget.personName}'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -79,8 +80,7 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             _buildName(),
             const SizedBox(height: 30),
             _buildDOB(),
@@ -141,9 +141,11 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
   }
 
   void _showDatePicker() {
+    // bool noPerson = person['birthDate']==null ? true:false;
+    // DateTime initDate = noPerson ? person['birthDate'] : DateTime.now();
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate:person['birthDate']==null ? DateTime.now():(person['birthDate']),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     ).then(

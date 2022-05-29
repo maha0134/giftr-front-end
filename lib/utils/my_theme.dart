@@ -156,16 +156,16 @@ class MyTheme {
           ),
         ),
         margin: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 16,
+          vertical: 2,
+          horizontal: 0,
         ),
       ),
 
       listTileTheme: ListTileThemeData(
-        contentPadding: const EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(10),
         tileColor: darkBase.colorScheme.onPrimary,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(7))
+          borderRadius: BorderRadius.all(Radius.circular(5))
         ),
         textColor: Colors.black,
         style: ListTileStyle.list,

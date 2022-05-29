@@ -102,7 +102,8 @@ class _GiftsScreenState extends State<GiftsScreen> {
         itemCount: gifts.length,
         itemBuilder: (context, index) {
           return Card(
-              child: ListTile(
+            child: ListTile(
+            tileColor:Theme.of(context).colorScheme.surface,
             title: Text(gifts[index].name),
             subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
