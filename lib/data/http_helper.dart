@@ -6,7 +6,9 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpHelper {
-  String domain = Platform.isAndroid ? '10.0.2.2:3030' : '127.0.0.1:3030';
+  // String domain = Platform.isAndroid ? '10.0.2.2:3030' : '127.0.0.1:3030';
+  String domain = 'stark-plateau-93271.herokuapp.com';
+
   String? token;
   Map<String, String>? headers;
 
