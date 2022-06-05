@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import '../data/http_helper.dart';
 import '../data/gift.dart';
@@ -67,10 +69,11 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         toolbarHeight: 70,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             //back to the people page using the function from main.dart
             widget.nav('gifts');
@@ -132,23 +135,20 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
 
   TextFormField _buildName() {
     return TextFormField(
-      decoration: _styleField('Idea Name', 'gift idea'),
+      decoration: _styleField('Gift Idea', 'Gift Idea'),
       controller: nameController,
       obscureText: false,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       validator: (String? value) {
-        print('called validator in email');
         if (value == null || value.isEmpty) {
           return 'Please enter a gift name';
-          //becomes the new errorText value
         } else if (value.length < 4) {
           return 'Name of the gift is not long enough.';
         }
-        return null; //means all is good
+        return null;
       },
       onSaved: (String? value) {
-        //save the gift value in the state variable
         setState(() {
           gift['name'] = value;
         });

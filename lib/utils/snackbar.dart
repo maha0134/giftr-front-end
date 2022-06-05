@@ -3,7 +3,7 @@ class CustomErrorPrompt {
 CustomErrorPrompt.snackbar(dynamic err, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: const Duration(seconds: 3),
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       content: Text(err.toString()),
     ));
 }

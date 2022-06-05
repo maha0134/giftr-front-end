@@ -57,6 +57,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(widget.personName),
         toolbarHeight: 70,
@@ -79,13 +80,14 @@ class _GiftsScreenState extends State<GiftsScreen> {
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(1),
           child: giftsRetrieved
               ? _giftListBuilder()
-              : Text(
-                  'There are no gift ideas yet for ${widget.personName}',
-                  style: Theme.of(context).textTheme.bodyText2,
-                )),
+              : Padding(padding: const EdgeInsets.all(10),
+                  child:Text(
+                    'There are no gift ideas yet for ${widget.personName}.',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ))),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
@@ -102,7 +104,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
         itemCount: gifts.length,
         itemBuilder: (context, index) {
           return ListTile(
-            tileColor:Theme.of(context).colorScheme.onSecondary,
+            tileColor:Theme.of(context).colorScheme.onTertiary,
             title: Text(gifts[index].name),
             subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -139,8 +141,6 @@ class _GiftsScreenState extends State<GiftsScreen> {
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         actionsAlignment: MainAxisAlignment.spaceAround,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
                         title: Text(
                           'Delete Confirmation',
                           textAlign: TextAlign.center,

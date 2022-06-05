@@ -11,12 +11,12 @@ class MyTheme {
     final ThemeData darkBase = ThemeData.from(
       colorScheme: const ColorScheme(
         //base colour scheme that can be overridden for widgets
-        primary: Color.fromARGB(255, 0, 0, 0),
+        primary: Color.fromARGB(255, 110, 2, 118),
         onPrimary: Color.fromARGB(255, 222, 219, 223),
-        secondary: Color.fromARGB(255, 85, 141, 169),
+        secondary: Color.fromARGB(255, 185, 187, 188),
         onSecondary: Color.fromARGB(255, 182, 138, 167),
         tertiary: Color.fromARGB(255, 220, 166, 6),
-        onTertiary: Colors.lime,
+        onTertiary: Color.fromRGBO(200, 164, 212, 1),
 
         primaryContainer: Colors.white,
         onPrimaryContainer: Color.fromARGB(255, 243, 0, 0),
@@ -133,15 +133,15 @@ class MyTheme {
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 17, 205, 205)),
-          foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
+          backgroundColor: MaterialStateProperty.all<Color>(darkBase.colorScheme.onTertiaryContainer),
+          foregroundColor: MaterialStateProperty.all<Color>(darkBase.colorScheme.background),
           elevation: MaterialStateProperty.all(10), //for all ElevatedButtons
         ),
       ),
 
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+          foregroundColor: MaterialStateProperty.all<Color>(darkBase.colorScheme.primary),
         ),
       ),
 
@@ -180,12 +180,16 @@ class MyTheme {
         errorStyle: darkBase.textTheme.caption,
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: darkBase.colorScheme.error, width: 2.0),),
-        labelStyle: const TextStyle(
-          color: Color.fromARGB(255, 81, 27, 86)
+        labelStyle: TextStyle(
+          color: darkBase.colorScheme.onTertiaryContainer,
         ),
-        hintStyle: const TextStyle(
-          color: Color.fromARGB(255, 45, 45, 45)
-        )
+        hintStyle: TextStyle(
+          color: darkBase.colorScheme.onPrimary,
+        ),
+        prefixStyle: TextStyle(
+          color: darkBase.colorScheme.primary,
+          fontSize: 25,
+        ),
       ),
     );
 

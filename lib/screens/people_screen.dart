@@ -54,6 +54,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
     });
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text('GIFTR - People'),
         centerTitle: true,
@@ -84,12 +85,12 @@ class _PeopleScreenState extends State<PeopleScreen> {
     return Container(
         alignment: Alignment.center,
         child: Text('Please add people.',
-            style: Theme.of(context).textTheme.bodyText2));
+          style: Theme.of(context).textTheme.bodyText2));
   }
 
   Widget _listPersons(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       itemCount: persons.length,
       itemBuilder: (context, index) {
         return Dismissible(
@@ -99,7 +100,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 child: Icon(Icons.delete_forever),
                 padding: EdgeInsets.all(10)
               ),
-              color: Theme.of(context).colorScheme.onPrimaryContainer
+              color: Theme.of(context).colorScheme.onError
             ),
             key: ValueKey<Person>(persons[index]),
             onDismissed: (DismissDirection direction) async {
@@ -121,7 +122,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
               return await showDialog<Future<bool>>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                  backgroundColor: Theme.of(context).colorScheme.onPrimary,
                   title: Text(
                     'Deletion Confirmation',
                     textAlign: TextAlign.center,
@@ -156,46 +156,46 @@ class _PeopleScreenState extends State<PeopleScreen> {
               );
             },
             direction: DismissDirection.endToStart,
-                child: ListTile(
-                  tileColor: _birthdayHasPassed(index)
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.onPrimary,
-                  title: Text(persons[index].name),
-                  subtitle: Text(DateFormat.MMMd()
-                      .format(persons[index].birthDate)
-                      .toString()),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: Theme.of(context).colorScheme.primary
-                        ),
-                        onPressed: () {
-                          String id = persons[index].id;
-                          String name = persons[index].name;
-                          DateTime dob = persons[index].birthDate;
-                          widget.nav('add_person', id, name, dob);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.card_giftcard,
-                          color: Theme.of(context)
-                                .colorScheme
-                                .onTertiaryContainer
-                        ),
-                        onPressed: () {
-                          String id = persons[index].id;
-                          String name = persons[index].name;
-                          DateTime dob = persons[index].birthDate;
-                          widget.nav('gifts', id, name, dob);
-                        },
-                      ),
-                    ],
+            child: ListTile(
+              tileColor: _birthdayHasPassed(index)
+                  ? Theme.of(context).colorScheme.onTertiary
+                  : Theme.of(context).colorScheme.error,
+              title: Text(persons[index].name),
+              subtitle: Text(DateFormat.MMMd()
+                  .format(persons[index].birthDate)
+                  .toString()),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.edit,
+                      color: Theme.of(context).colorScheme.primary
+                    ),
+                    onPressed: () {
+                      String id = persons[index].id;
+                      String name = persons[index].name;
+                      DateTime dob = persons[index].birthDate;
+                      widget.nav('add_person', id, name, dob);
+                    },
                   ),
-                ));
+                  IconButton(
+                    icon: Icon(
+                      Icons.card_giftcard,
+                      color: Theme.of(context)
+                            .colorScheme
+                            .onTertiaryContainer
+                    ),
+                    onPressed: () {
+                      String id = persons[index].id;
+                      String name = persons[index].name;
+                      DateTime dob = persons[index].birthDate;
+                      widget.nav('gifts', id, name, dob);
+                    },
+                  ),
+                ],
+              ),
+            ));
       },
     );
   }

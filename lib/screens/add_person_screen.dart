@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, constant_identifier_names, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/http_helper.dart';
@@ -62,9 +64,10 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
         widget.personName == null || widget.personName == '' ? true : false;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             //back to the people page using the function from main.dart
             widget.nav('people');
@@ -145,7 +148,8 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
     // DateTime initDate = noPerson ? person['birthDate'] : DateTime.now();
     showDatePicker(
       context: context,
-      initialDate:person['birthDate']==null ? DateTime.now():(person['birthDate']),
+      initialDate:
+          person['birthDate'] == null ? DateTime.now() : (person['birthDate']),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     ).then(
@@ -173,7 +177,12 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
           return 'Please enter a valid date';
           //becomes the new errorText value
         }
-        return null; //means all is good
+        try {
+          final DateTime? enteredDate = DateFormat.yMMMd().parseStrict(value);
+          return null;
+        } catch (e) {
+          return 'Please enter a valid date';
+        }
       },
       onSaved: (String? value) {
         //save the email value in the state variable
