@@ -32,9 +32,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  //stateful widget for the main page container for all pages
-  // we do this to keep track of current page at the top level
-  // the state information can be passed to the BottomNav()
   MainPage({Key? key}) : super(key: key);
 
   @override
@@ -76,10 +73,8 @@ class _MainPageState extends State<MainPage> {
         return LoginScreen(
             prefs: prefs,
             nav: (String nextScreen) {
-              print('from login to people ');
               setState(() => {currentScreen = Screen.PEOPLE});
             });
-        break;
       case Screen.PEOPLE:
         return PeopleScreen(
           prefs: prefs,

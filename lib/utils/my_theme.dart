@@ -5,18 +5,14 @@ class MyTheme {
   MyTheme();
 
   static ThemeData buildDark() {
-    //final base = ThemeData.dark();
-
-    //ThemeData.from( colorScheme: , textTheme: )
     final ThemeData darkBase = ThemeData.from(
       colorScheme: const ColorScheme(
-        //base colour scheme that can be overridden for widgets
         primary: Color.fromARGB(255, 110, 2, 118),
         onPrimary: Color.fromARGB(255, 222, 219, 223),
         secondary: Color.fromARGB(255, 185, 187, 188),
         onSecondary: Color.fromARGB(255, 182, 138, 167),
         tertiary: Color.fromARGB(255, 220, 166, 6),
-        onTertiary: Color.fromRGBO(200, 164, 212, 1),
+        onTertiary: Color.fromARGB(255, 200, 164, 212),
 
         primaryContainer: Colors.white,
         onPrimaryContainer: Color.fromARGB(255, 243, 0, 0),
@@ -36,10 +32,7 @@ class MyTheme {
         //if colorScheme is light the text will be dark
       ),
       textTheme: const TextTheme(
-        //base text theme that can be overridden by widgets
         headline1: TextStyle(
-          // letterSpacing: ,
-          // fontFamily: ,
           fontSize: 60,
           fontWeight: FontWeight.w700,
         ),
@@ -103,7 +96,6 @@ class MyTheme {
 
     
     ThemeData dark = darkBase.copyWith(
-      //colours set in here will override the ColorScheme
       scaffoldBackgroundColor: const Color.fromARGB(255, 170, 167, 167),
       shadowColor: const Color.fromARGB(207, 0, 0, 0),
 
@@ -116,11 +108,9 @@ class MyTheme {
           fontSize: 30,
         ),
         iconTheme: const IconThemeData(color: Color.fromARGB(255, 255, 157, 0)),
-        //this will override the iconThemeData
       ),
 
       iconTheme: IconThemeData(
-        //defaults for icons unless overridden
         color: darkBase.colorScheme.primary,
         size: 36,
       ),
@@ -148,7 +138,6 @@ class MyTheme {
       cardTheme: const CardTheme(
         color: Color.fromARGB(255, 0, 255, 128), //background of card
         elevation: 12, //shadow distance, z-index for all cards
-        //to change the rounding of the corners use shape
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(15),
@@ -195,16 +184,4 @@ class MyTheme {
 
     return dark;
   }
-
-  // static ThemeData buildLight() {
-  // ThemeData lightBase = ThemeData.from(
-  //   colorScheme: ColorScheme(),
-  //   textTheme: TextTheme(),
-  // );
-  // ThemeData light = lightBase.copyWith(
-  //
-  // );
-  //
-  // return light;
-  // }
 }
