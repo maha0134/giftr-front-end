@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../data/http_helper.dart';
 import '../utils/snackbar.dart';
+import '../utils/custom_loader.dart';
 
 enum Stage { LOGIN, REGISTER }
 
@@ -45,124 +46,119 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginForm(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: const Text('Login to GIFTR'),
-        centerTitle: true,
-        toolbarHeight: 70,
-      ),
-      body: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 90),
-                  children: [
-                    Column(children: [
-                      _buildEmail(),
-                      const SizedBox(height: 20),
-                      _buildPassword(),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            child: const Text('Login'),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                //validation has been passed so we can save the form
-                                _formKey.currentState!.save();
-                                _loginButtonPressed();
-                              } else {
-                                //form failed validation so exit
-                                return;
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 16.0),
-                          TextButton(
-                              child: const Text('Register'),
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          title: const Text('Login to GIFTR'),
+          centerTitle: true,
+          toolbarHeight: 70,
+        ),
+        body: SafeArea(
+            child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(vertical: 90),
+                    children: [
+                      Column(children: [
+                        _buildEmail(),
+                        const SizedBox(height: 20),
+                        _buildPassword(),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              child: const Text('Login'),
                               onPressed: () {
-                                setState(() {
-                                  // //if register button is pressed, clear all values and proceed
-                                  // //
-                                  // _formKey.currentState!.reset();
-                                  currentStage = Stage.REGISTER;
-                                });
-                              }),
-                        ],
-                      ),
-                    ]),
-                  ],
-                ),
-              ))));
+                                if (_formKey.currentState!.validate()) {
+                                  //validation has been passed so we can save the form
+                                  _formKey.currentState!.save();
+                                  _loginButtonPressed();
+                                } else {
+                                  //form failed validation so exit
+                                  return;
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 16.0),
+                            TextButton(
+                                child: const Text('Register'),
+                                onPressed: () {
+                                  setState(() {
+                                    // //if register button is pressed, clear all values and proceed
+                                    // //
+                                    // _formKey.currentState!.reset();
+                                    currentStage = Stage.REGISTER;
+                                  });
+                                }),
+                          ],
+                        ),
+                      ]),
+                    ],
+                  ),
+                ))));
   }
 
   Widget _registerForm(BuildContext context) {
-  return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Register to GIFTR'),
-        toolbarHeight: 70,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Please fill in all the details below.',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    const SizedBox(height: 30),
-                    _buildEmail(),
-                    const SizedBox(height: 20),
-                    _buildPassword(),
-                    const SizedBox(height: 20),
-                    _buildFirstName(),
-                    const SizedBox(height: 20),
-                    _buildLastName(),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Register to GIFTR'),
+          toolbarHeight: 70,
+        ),
+        body: SafeArea(
+            child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       children: [
-                        ElevatedButton(
-                          child: const Text('Register'),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              registerUser();
-                            }
-                          },
-                        ),
-                        const SizedBox(width: 16.0),
-                        TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () {
-                            setState(() {
-                              _formKey.currentState!.reset();
-                              currentStage = Stage.LOGIN;
-                            });
-                          },
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Please fill in all the details below.',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const SizedBox(height: 30),
+                            _buildEmail(),
+                            const SizedBox(height: 20),
+                            _buildPassword(),
+                            const SizedBox(height: 20),
+                            _buildFirstName(),
+                            const SizedBox(height: 20),
+                            _buildLastName(),
+                            const SizedBox(height: 30),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    child: const Text('Register'),
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        registerUser();
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  TextButton(
+                                    child: const Text('Cancel'),
+                                    onPressed: () {
+                                      setState(() {
+                                        _formKey.currentState!.reset();
+                                        currentStage = Stage.LOGIN;
+                                      });
+                                    },
+                                  )
+                                ])
+                          ],
                         )
-                      ]
-                    )
-                    ],
-                  )
-              ]
-              ),
-            )
-          )
-          )
-        );
+                      ]),
+                ))));
   }
 
   InputDecoration _styleField(String label, String hint) {
@@ -269,11 +265,14 @@ class _LoginScreenState extends State<LoginScreen> {
       'data': {'attributes': user}
     };
     try {
+      CustomLoader.showLoader(context);
       Map responseBody = await helper.loginUser(userData);
       String token = responseBody['data']['attributes']['accessToken'];
       await widget.prefs.setString('JWT', token);
+      Navigator.pop(context);
       widget.nav('people');
     } catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
@@ -285,13 +284,16 @@ class _LoginScreenState extends State<LoginScreen> {
     };
     //  move to login screen when registration is successful.
     try {
+      CustomLoader.showLoader(context);
       bool registrationStatus = await helper.registerUser(userData);
+      Navigator.pop(context);
       if (registrationStatus) {
         _loginButtonPressed();
       }
     }
     // catch the error and display it to the user in a snack bar.
     catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
