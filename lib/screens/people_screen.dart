@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:GIFTR/utils/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GIFTR/data/http_helper.dart';
 import 'dart:async';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../data/http_helper.dart';
 import '../data/person.dart';
 import '../utils/snackbar.dart';
+import '../utils/custom_loader.dart';
 
 class PeopleScreen extends StatefulWidget {
   PeopleScreen(
@@ -87,7 +89,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
     return Container(
         alignment: Alignment.center,
         child: Text('Please add people.',
-          style: Theme.of(context).textTheme.bodyText2));
+            style: Theme.of(context).textTheme.bodyText2));
   }
 
   Widget _listPersons(BuildContext context) {
@@ -97,13 +99,11 @@ class _PeopleScreenState extends State<PeopleScreen> {
       itemBuilder: (context, index) {
         return Dismissible(
             background: Container(
-              alignment: Alignment.centerRight,
-              child: const Padding(
-                child: Icon(Icons.delete_forever),
-                padding: EdgeInsets.all(10)
-              ),
-              color: Theme.of(context).colorScheme.onError
-            ),
+                alignment: Alignment.centerRight,
+                child: const Padding(
+                    child: Icon(Icons.delete_forever),
+                    padding: EdgeInsets.all(10)),
+                color: Theme.of(context).colorScheme.onError),
             key: ValueKey<Person>(persons[index]),
             onDismissed: (DismissDirection direction) async {
               await _deletePerson(persons[index].id, index);
@@ -149,9 +149,9 @@ class _PeopleScreenState extends State<PeopleScreen> {
                       onPressed: () =>
                           Navigator.pop(context, Future(() => false)),
                       child: Text('Cancel',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          )),
                     ),
                   ],
                 ),
@@ -170,10 +170,8 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Theme.of(context).colorScheme.primary
-                    ),
+                    icon: Icon(Icons.edit,
+                        color: Theme.of(context).colorScheme.primary),
                     onPressed: () {
                       String id = persons[index].id;
                       String name = persons[index].name;
@@ -182,12 +180,9 @@ class _PeopleScreenState extends State<PeopleScreen> {
                     },
                   ),
                   IconButton(
-                    icon: Icon(
-                      Icons.card_giftcard,
-                      color: Theme.of(context)
-                            .colorScheme
-                            .onTertiaryContainer
-                    ),
+                    icon: Icon(Icons.card_giftcard,
+                        color:
+                            Theme.of(context).colorScheme.onTertiaryContainer),
                     onPressed: () {
                       String id = persons[index].id;
                       String name = persons[index].name;
@@ -205,12 +200,15 @@ class _PeopleScreenState extends State<PeopleScreen> {
   Future<List<Person>> _getPersons() async {
     HttpHelper helper = HttpHelper();
     try {
+      CustomLoader.showLoader(context);
       List responseBody = await helper.getAllPeople(widget.prefs);
       users = responseBody.map<Person>((element) {
         Person user = Person.fromJson(element['data']);
         return user;
       }).toList();
+      Navigator.pop(context);
     } catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
     return users;
@@ -220,8 +218,11 @@ class _PeopleScreenState extends State<PeopleScreen> {
     HttpHelper helper = HttpHelper();
     Map owner = {};
     try {
+      CustomLoader.showLoader(context);
       owner = await helper.fetchOwner(widget.prefs);
+      Navigator.pop(context);
     } catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
     return owner;
@@ -231,9 +232,12 @@ class _PeopleScreenState extends State<PeopleScreen> {
     HttpHelper helper = HttpHelper();
 
     try {
+      CustomLoader.showLoader(context);
       await helper.deletePerson(widget.prefs, id);
+      Navigator.pop(context);
       return;
     } catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
