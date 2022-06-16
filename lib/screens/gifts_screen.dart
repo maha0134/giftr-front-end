@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names, prefer_typing_uninitialized_variables
 
+import 'package:GIFTR/utils/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GIFTR/data/http_helper.dart';
 import 'package:intl/intl.dart';
@@ -85,8 +86,9 @@ class _GiftsScreenState extends State<GiftsScreen> {
           padding: const EdgeInsets.all(1),
           child: giftsRetrieved
               ? _giftListBuilder()
-              : Padding(padding: const EdgeInsets.all(10),
-                  child:Text(
+              : Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
                     'There are no gift ideas yet for ${widget.personName}.',
                     style: Theme.of(context).textTheme.bodyText2,
                   ))),
@@ -100,13 +102,12 @@ class _GiftsScreenState extends State<GiftsScreen> {
     );
   }
 
-
   ListView _giftListBuilder() {
     return ListView.builder(
         itemCount: gifts.length,
         itemBuilder: (context, index) {
           return ListTile(
-            tileColor:Theme.of(context).colorScheme.onTertiary,
+            tileColor: Theme.of(context).colorScheme.onTertiary,
             title: Text(gifts[index].name),
             subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,10 +115,12 @@ class _GiftsScreenState extends State<GiftsScreen> {
                 children: [
                   Text(
                       '${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index].price)}'),
-                  if(!(gifts[index].store == null || gifts[index].store!.isEmpty)) ...[
+                  if (!(gifts[index].store == null ||
+                      gifts[index].store!.isEmpty)) ...[
                     Text('${gifts[index].store}')
                   ],
-                  if(!(gifts[index].url == null || gifts[index].url!.isEmpty)) ...[
+                  if (!(gifts[index].url == null ||
+                      gifts[index].url!.isEmpty)) ...[
                     Text('${gifts[index].url}')
                   ]
                 ]),
@@ -136,50 +139,52 @@ class _GiftsScreenState extends State<GiftsScreen> {
                 Visibility(
                   visible: isOwner,
                   child: IconButton(
-                  icon: Icon(Icons.delete,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer),
-                  onPressed: () async {
-                    await showDialog<Future<bool>>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        actionsAlignment: MainAxisAlignment.spaceAround,
-                        title: Text(
-                          'Delete Confirmation',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        content: Text(
-                          'Are you sure that you want to delete this gift?',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, Future(() => true));
-                              _deleteGift(widget.personId, index);
-                            },
-                            child: Text(
-                              'Yes',
-                              style: Theme.of(context).textTheme.button,
-                            ),
+                    icon: Icon(Icons.delete,
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer),
+                    onPressed: () async {
+                      await showDialog<Future<bool>>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          actionsAlignment: MainAxisAlignment.spaceAround,
+                          title: Text(
+                            'Delete Confirmation',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
-                          TextButton(
-                            onPressed: () =>
-                                Navigator.pop(context, Future(() => false)),
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
+                          content: Text(
+                            'Are you sure that you want to delete this gift?',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.subtitle2,
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, Future(() => true));
+                                _deleteGift(widget.personId, index);
+                              },
+                              child: Text(
+                                'Yes',
+                                style: Theme.of(context).textTheme.button,
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                  )
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(context, Future(() => false)),
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
           );
@@ -189,10 +194,11 @@ class _GiftsScreenState extends State<GiftsScreen> {
   Future<List<Gift>> _getGifts() async {
     HttpHelper helper = HttpHelper();
     try {
+      CustomLoader.showLoader(context);
       Map responseBody =
           await helper.getPersonFromId(widget.prefs, widget.personId);
       List retrievedGifts = responseBody['data']['attributes']['gifts'];
-      
+
       if (retrievedGifts.isNotEmpty) {
         futureGifts = retrievedGifts.map<Gift>((element) {
           Gift gift = Gift.fromJson(element);
@@ -208,8 +214,10 @@ class _GiftsScreenState extends State<GiftsScreen> {
         // });
       }
     } catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
+    Navigator.pop(context);
     return futureGifts;
   }
 
@@ -217,9 +225,11 @@ class _GiftsScreenState extends State<GiftsScreen> {
     HttpHelper helper = HttpHelper();
     var giftId = gifts[index].id;
     try {
+      CustomLoader.showLoader(context);
       bool giftDeleted =
           await helper.deleteGift(widget.prefs, personId, giftId);
       if (giftDeleted) {
+        Navigator.pop(context);
         setState(() {
           gifts.removeAt(index);
           if (gifts.isEmpty) {
@@ -228,6 +238,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
         });
       }
     } catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
@@ -242,28 +253,4 @@ class _GiftsScreenState extends State<GiftsScreen> {
     }
     return owner;
   }
-  // Widget _showGiftCards(index){
-  //   bool giftStore = gifts[index].store != null || gifts[index].store!.isNotEmpty;
-  //   bool giftUrl = gifts[index].url != null || gifts[index].url!.isNotEmpty;
-  //   return Column(
-  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 // Visibility(
-  //                 //   visible: giftStore,
-  //                 //   maintainSize: false,
-  //                 //   maintainAnimation: false,
-  //                 //   maintainState: false,
-  //                 //   child: Text('${gifts[index].store}'),
-  //                 // ),
-  //                 if(giftStore) ...[ Text('${gifts[index].store}')],
-  //                 Text(
-  //                     '${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index].price)}'),
-  //                 Visibility(
-  //                   visible:giftUrl,
-  //                   maintainSize: false,
-  //                   child: Text('${gifts[index].url}')
-  //                 )
-  //               ]);
-  // }
 }

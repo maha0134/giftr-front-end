@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names, prefer_typing_uninitialized_variables
 
+import 'package:GIFTR/utils/custom_loader.dart';
 import 'package:flutter/material.dart';
 import '../data/http_helper.dart';
 import '../data/gift.dart';
@@ -54,14 +55,14 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       var token = await widget.prefs.getString('JWT');
       if (token == null) {
         widget.logout('logout');
-      } else{
-      giftExists = widget.currentGift != null ? true : false;
-      if (giftExists) {
-        nameController.text = widget.currentGift!.name;
-        priceController.text = widget.currentGift!.price.toString();
-        storeNameController.text = widget.currentGift!.store!;
-        storeController.text = widget.currentGift!.url!;
-      }
+      } else {
+        giftExists = widget.currentGift != null ? true : false;
+        if (giftExists) {
+          nameController.text = widget.currentGift!.name;
+          priceController.text = widget.currentGift!.price.toString();
+          storeNameController.text = widget.currentGift!.store!;
+          storeController.text = widget.currentGift!.url!;
+        }
       }
     }();
   }
@@ -69,54 +70,54 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        toolbarHeight: 70,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            //back to the people page using the function from main.dart
-            widget.nav('gifts');
-          },
+        backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          toolbarHeight: 70,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              //back to the people page using the function from main.dart
+              widget.nav('gifts');
+            },
+          ),
+          title: giftExists
+              ? Text('Edit Gift - ${widget.personName}')
+              : Text('Add Gift - ${widget.personName}'),
+          centerTitle: true,
         ),
-        title: giftExists
-            ? Text('Edit Gift - ${widget.personName}')
-            : Text('Add Gift - ${widget.personName}'),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-          minimum: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Form(
-                  key: _formKey,
-                  child: ListView(children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 20),
-                        _buildName(),
-                        const SizedBox(height: 20),
-                        _buildPrice(),
-                        const SizedBox(height: 20),
-                        _buildStoreName(),
-                        const SizedBox(height: 20),
-                        _buildStore(),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          child: giftExists
-                              ? const Text('Update')
-                              : const Text('Save'),
-                          onPressed: () async {
-                            //use the API to save the new gift for the person
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              giftExists ? _updateGift() : _createGift();
-                              //go to the gifts screen
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ]))));
+        body: SafeArea(
+            minimum: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: Form(
+                key: _formKey,
+                child: ListView(children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      _buildName(),
+                      const SizedBox(height: 20),
+                      _buildPrice(),
+                      const SizedBox(height: 20),
+                      _buildStoreName(),
+                      const SizedBox(height: 20),
+                      _buildStore(),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        child: giftExists
+                            ? const Text('Update')
+                            : const Text('Save'),
+                        onPressed: () async {
+                          //use the API to save the new gift for the person
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            giftExists ? _updateGift() : _createGift();
+                            //go to the gifts screen
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ]))));
   }
 
   InputDecoration _styleField(String label, String hint) {
@@ -221,14 +222,17 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       'data': {'attributes': gift}
     };
     try {
+      CustomLoader.showLoader(context);
       bool isCreated =
           await helper.createGift(widget.prefs, giftData, widget.personId);
       if (isCreated) {
+        Navigator.pop(context);
         widget.nav('gifts');
       }
     }
     // catch the error and display it to the user in a snack bar.
     catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
@@ -239,14 +243,17 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       'data': {'attributes': gift}
     };
     try {
+      CustomLoader.showLoader(context);
       bool giftUpdated = await helper.updateGift(
           widget.prefs, giftData, widget.personId, widget.currentGift!.id);
       if (giftUpdated) {
+        Navigator.pop(context);
         widget.nav('gifts');
       }
     }
     // catch the error and display it to the user in a snack bar.
     catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }

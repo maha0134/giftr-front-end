@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/http_helper.dart';
+import '../utils/custom_loader.dart';
 import '../utils/snackbar.dart';
 
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
@@ -199,13 +200,16 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
       'data': {'attributes': person}
     };
     try {
+      CustomLoader.showLoader(context);
       bool personCreated = await helper.createPerson(widget.prefs, personData);
       if (personCreated) {
+        Navigator.pop(context);
         widget.nav('people');
       }
     }
     // catch the error and display it to the user in a snack bar.
     catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
@@ -216,14 +220,17 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
       'data': {'attributes': person}
     };
     try {
+      CustomLoader.showLoader(context);
       bool personUpdated =
           await helper.updatePerson(widget.prefs, personData, widget.personID);
       if (personUpdated) {
+        Navigator.pop(context);
         widget.nav('people');
       }
     }
     // catch the error and display it to the user in a snack bar.
     catch (err) {
+      Navigator.pop(context);
       CustomErrorPrompt.snackbar(err, context);
     }
   }
