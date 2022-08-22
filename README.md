@@ -1,16 +1,9 @@
-# flutter_multi_screen
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Welcome to the GIFTR APP
+- Created using Flutter, this app lets you add birthdays of your friends and family. 
+- You can also add multiple gift ideas(with details like price, store, etc) for the people added.
+- You can register for an account using an email address and password and login to see the people you have added.
+- The UI consists of multiple pages having a common AppBar and uses list tiles to display list of people/gifts.
+- Multiple validations have been added on login/registration page as well as people and gifts related screens that prompt user to correct input dynamically.
+-This front end is linked to a backend nodeJS server that is coded to handles all CRUD routes and that uses mongoDB.
+### Here is the link to the backend of the GIFTR Flutter App
+[GIFTR Back end](https://github.com/maha0134/giftr-backend)
